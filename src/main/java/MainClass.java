@@ -4,48 +4,68 @@ import java.util.Arrays;
 
 public class MainClass {
     public static void main(String[] args){
-        IntegerLinkedList list = new IntegerLinkedList(1,10);
-        int result = list.get(9);
-        System.out.println(result);
+        SinglyLinkedList<String> list = new SinglyLinkedList<String>();
+        list.add("Hello");
+        list.add("Goodbye");
+        list.removeAt(0);
+        System.out.println(list.get(0));
     }
 }
 
-class Node<AnyType>{
+class SinglyNode<AnyType>{
 
     private AnyType data;
-    private Node<AnyType> next;
+    private SinglyNode<AnyType> next;
 
-    public Node(AnyType data, Node<AnyType> next){
+    SinglyNode(AnyType data, SinglyNode<AnyType> next){
         this.data = data;
         this.next = next;
     }
 
     public AnyType getData(){
+
         return this.data;
     }
 
-    public Node<AnyType> getNext(){
+    public SinglyNode<AnyType> getNext(){
+
         return this.next;
+    }
+
+    public void setNext(SinglyNode<AnyType> node){
+
+        this.next = node;
     }
 }
 
-class IntegerLinkedList{
+class SinglyLinkedList<AnyType>{
 
-    private Node<Integer> head;
+    private SinglyNode<AnyType> head;
 
-    IntegerLinkedList(int start,int size){
-        for(int x = 0;x < size;x++){
-            if(x == 0){
-                this.head = new Node<Integer>(start + size - x - 1, null);
-            }
-            else{
-                this.head = new Node<Integer>( start + size - x - 1,this.head);
-            }
-        }
+    SinglyLinkedList(){
+        this.head = null;
     }
 
-    public int get(int index){
-        Node<Integer> currentNode = this.head;
+    public void add(AnyType data){
+        this.head = new SinglyNode<AnyType>(data,this.head);
+    }
+
+    public void removeAt(int index){
+        SinglyNode<AnyType> currentNode = this.head;
+        if(index == 0){
+            this.head = this.head.getNext();
+            return;
+        }
+        int i = 0;
+        while(i < index - 1){
+            currentNode = currentNode.getNext();
+            i++;
+        }
+        currentNode.setNext(currentNode.getNext());
+    }
+
+    public AnyType get(int index){
+        SinglyNode<AnyType> currentNode = this.head;
         int i = 0;
         while(i < index){
             currentNode = currentNode.getNext();
